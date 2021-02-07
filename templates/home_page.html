@@ -63,22 +63,12 @@ alert('Your meme is submitted');
             <div class="Wrapper">
                 
                 <div class="LeftContent">
-                    <p>this will scroll</p><p>this will scroll</p><p>this will scroll</p><p>this will scroll</p><p>this will scroll</p><p>this will scroll</p>
-                    <p>this will scroll</p><p>this will scroll</p><p>this will scroll</p><p>this will scroll</p><p>this will scroll</p><p>this will scroll</p>
-                    <p>this will scroll</p><p>this will scroll</p><p>this will scroll</p><p>this will scroll</p><p>this will scroll</p><p>this will scroll</p>
-                    
-                  <br><br>
-                  p>this will scroll</p><p>this will scroll</p><p>this will scroll</p><p>this will scroll</p><p>this will scroll</p><p>this will scroll</p>
-                    <p>this will scroll</p><p>this will scroll</p><p>this will scroll</p><p>this will scroll</p><p>this will scroll</p><p>this will scroll</p>
-                    <p>this will scroll</p><p>this will scroll</p><p>this will scroll</p><p>this will scroll</p><p>this will scroll</p><p>this will scroll</p>
-                    
-                  <br><br>
-                  p>this will scroll</p><p>this will scroll</p><p>this will scroll</p><p>this will scroll</p><p>this will scroll</p><p>this will scroll</p>
-                    <p>this will scroll</p><p>this will scroll</p><p>this will scroll</p><p>this will scroll</p><p>this will scroll</p><p>this will scroll</p>
-                    <p>this will scroll</p><p>this will scroll</p><p>this will scroll</p><p>this will scroll</p><p>this will scroll</p><p>this will scroll</p>
-                    
-                  <br><br>
-                  
+                   {% for  detail in userdetail  %}
+                  <h4>{{detail.name}}</h4>
+                  <h4>{{detail.caption}}</h4>
+                  <img src= {{detail.url}}  style="width:128px;height:128px;">
+                  <br>
+                   {% endfor %}
                 </div>
             </div>
         </div>

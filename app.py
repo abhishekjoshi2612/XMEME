@@ -54,10 +54,10 @@ def check_url(url):
 
 #db.create_all()
 
-
+Users = [ users for users in User.query.all()]
 @app.route('/')
 def hi():
-    return render_template('home_page.html')
+    return render_template('home_page.html',userdetail = Users)
 @app.route('/register',methods = ["POST"])
 def register():
     if request.method == "POST":
@@ -72,19 +72,19 @@ def register():
                 db.session.commit()
                 print("YOddddd")
                # flash('Your meme is submitted')
-                return render_template('home_page.html',alert = 1)
+                return render_template('home_page.html',alert = 1,userdetail = Users)
             else:
                # flash('HEY THIS NAME ,CAPTION and URL already exists in our database')
                # error = 'HEY THIS NAME ,CAPTION and URL already exists in our database'
                print('copy cat')
-               return render_template('home_page.html',alert = 2)
+               return render_template('home_page.html',alert = 2,userdetail = Users)
         else:
            # print("baddd")
            # flash('HEY YOUR URL DOES NOT CONTAIN AN VALID IMAGE THE IMAGE SHOULD BE IN PNG,JPG,JPEG OR IN GIF FORMAT')
            # error = 'HEY YOUR URL DOES NOT CONTAIN AN VALID IMAGE THE IMAGE SHOULD BE IN PNG,JPG,JPEG OR IN GIF FORMAT'
           #  return "HEY YO"
            print('hey invalid format')
-           return render_template('home_page.html',alert = 3)
+           return render_template('home_page.html',alert = 3,userdetail = Users)
 
 
 

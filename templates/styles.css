@@ -19,6 +19,7 @@ html, body, .Container
 .Header
 {
     margin-bottom: 10px;
+    position: fixed;
  /*   background-color: #6ea364;*/
 }
 .Content
@@ -58,4 +59,12 @@ html, body, .Container
    /* background-color: orange;*/
     float: right;
     margin-left: 10px;
+}
+.Header
+{
+  /*  margin-bottom: 10px; */
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+ /*   background-color: #6ea364;*/
 }
