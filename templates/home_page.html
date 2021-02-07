@@ -14,7 +14,30 @@
   <div class="Header"><h4>    </h4>
           <h4>   MEME STREAM</h4>
     <br>
-    <form> 
+    {% block body %}
+{% if alert == 1%}
+<script>
+alert('Your meme is submitted');
+</script>
+
+{% endif %}
+
+{% if alert == 2 %}
+<script>
+    alert('HEY THIS NAME ,CAPTION and URL already exists in our database');
+</script>
+
+{% endif %}
+
+
+{% if alert == 3 %}
+<script>
+    alert('HEY YOUR URL DOES NOT CONTAIN AN VALID IMAGE THE IMAGE SHOULD BE IN PNG,JPG,JPEG OR IN GIF FORMAT');
+</script>
+
+{% endif %}
+    {% endblock %}
+    <form  name = "registerform" action = "/register" method="post"  id = "registerform"> 
       
       <label for = "name">Meme Owner</label>
       <br>
@@ -34,7 +57,7 @@
       
       
       
-    </form>
+    </form >
         </div>
         <div class="Content">
             <div class="Wrapper">
