@@ -3,7 +3,15 @@
 <head>
    <h1>XMEME</h1>
   <br>
-  <link rel = "stylesheet" href = "styles.css">
+  <style>
+  .Header{
+position: sticky;
+top : 0;
+/*background-color: white;*/
+  }
+  
+  </style>
+<!--<link rel = "stylesheet" href = "styles.css">-->  
   </head>
   <body>
 
@@ -11,7 +19,7 @@
    
 
 <div class="Container">
-  <div class="Header"><h4>    </h4>
+  <div class="Header" id = "myHeader"><h4>    </h4>
           <h4>   MEME STREAM</h4>
     <br>
     {% block body %}
@@ -66,6 +74,7 @@ alert('Your meme is submitted');
                    {% for  detail in userdetail  %}
                   <h4>{{detail.name}}</h4>
                   <h4>{{detail.caption}}</h4>
+                <!--- <h4>  {{detail.id}}</h4> -->
                   <img src= {{detail.url}}  style="width:128px;height:128px;">
                   <br>
                    {% endfor %}
@@ -74,6 +83,10 @@ alert('Your meme is submitted');
         </div>
     </div>
     
+
+   
+
   </body>
   
+
 </html>

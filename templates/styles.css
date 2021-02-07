@@ -6,6 +6,7 @@
 
 html, body, .Container
 {
+   
     height: 100%;
 }
 
@@ -64,7 +65,12 @@ html, body, .Container
 {
   /*  margin-bottom: 10px; */
     position: -webkit-sticky;
-    position: sticky;
+    position: fixed;
     top: 0;
  /*   background-color: #6ea364;*/
+}
+.sticky {
+  position: fixed;
+  top: 0;
+  width: 100%;
 }
