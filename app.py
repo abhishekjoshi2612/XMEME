@@ -70,9 +70,12 @@ API_URL = '/static/swagger.json'
 SWAGGERUI_BLUEPRINT = get_swaggerui_blueprint(
     SWAGGER_URL,
     API_URL,
-    
+    config={
+        'app_name': "Seans-Python-Flask-REST-Boilerplate"
+    }
 )
 app.register_blueprint(SWAGGERUI_BLUEPRINT ,url_prefix=SWAGGER_URL)
+
 
 @app.route('/static/<path:path>')
 def send_static(path):
@@ -224,4 +227,4 @@ def fetch_id(id):
 
 
 if __name__ == "__main__":
-    app.run(debug=True) 
+     app.run(host='0.0.0.0', port=5000, debug=False)
