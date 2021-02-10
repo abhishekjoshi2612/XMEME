@@ -4,7 +4,6 @@ from flask_api import status
 from urllib.request import urlopen
 from flask_sqlalchemy import SQLAlchemy
 from flask_table import Table
-from flask_swagger_ui import get_swaggerui_blueprint
 import requests
 #import jsonify
 
@@ -64,25 +63,17 @@ Users = [ users for users in User.query.all()]
 Users.reverse()
 
 
-SWAGGER_URL = '/swagger'
-API_URL = '/static/swagger.json'
-
-SWAGGERUI_BLUEPRINT = get_swaggerui_blueprint(
-    SWAGGER_URL,
-    API_URL,
-    config={
-        'app_name': "Seans-Python-Flask-REST-Boilerplate"
-    }
-)
-app.register_blueprint(SWAGGERUI_BLUEPRINT ,url_prefix=SWAGGER_URL)
 
 
-@app.route('/static/<path:path>')
-def send_static(path):
-    return send_from_directory('static',path)
 @app.route('/')
 def hi():
     return render_template('home_page.html',userdetail = Users)
+
+@app.route('/api/docs')
+def get_docs():
+    print('sending docs')
+    return render_template('swaggerui.html')
+
 @app.route('/editit')
 def hello():
     return render_template('edit.html')
@@ -227,4 +218,4 @@ def fetch_id(id):
 
 
 if __name__ == "__main__":
-     app.run(host='0.0.0.0', port=5000, debug=False)
+     app.run(debug = True)

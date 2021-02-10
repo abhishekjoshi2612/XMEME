@@ -7,7 +7,7 @@
   },
   "servers": [
     {
-      "url": "/",
+      "url": "https://5000-scarlet-silkworm-afho3eni.ws-us03.gitpod.io",
       "description": "Used for fetching memes"
     }
   ],
