@@ -95,22 +95,22 @@ def register():
 
 
 
-@app.route('/memes/<int:id>',methods = ['GET'])
-def fetching(id):
-    if request.method == "GET":
-        if User.query.filter_by(id = id).first() is None:
-            content = {'please move along':'your id is not here'}
-            return content,status.HTTP_404_NOT_FOUND
-        else:
-         id_data = User.query.filter_by(id = id).first() 
-         data_to_send =  { "id":id,  "name": id_data.name, "url":id_data.url,  "caption": id_data.caption}
-         return jsonify(data_to_send),200
-    else:
-        return {'bad','request'},400
 
 
-@app.route('/memes',methods = ['POST'])
+
+@app.route('/memes',methods = ['GET','POST'])
 def fetch_now():
+    if request.method == "GET":
+        count = 0
+        Users_count = []
+        for user in Users:
+            count += 1
+            Users_count.append({"id":user.id,"name":user.name,"url":user.url,"caption":user.caption})
+            if count == 100:
+                break
+        Users_count.reverse()
+        return jsonify(Users_count),200
+
     if request.method == "POST":
         request_json = request.get_json(force = True)
         url = request_json.get("url")
@@ -121,13 +121,13 @@ def fetch_now():
         print(name," ",caption," ",url)
         if name is None:
             print('name wrong')
-            return bad_request,400
+            return ('',400)
         if url is None or check_url(url) is False:
             print('url wrong')
-            return bad_request,400
+            return ('',400)
         if caption is None:
             print('caption wrong')
-            return bad_request,400
+            return ('',400)
         
         the_id = User.query.filter_by(url = url,name = name,caption = caption).first()
         if the_id is None:
@@ -135,12 +135,48 @@ def fetch_now():
             db.session.add(data)
             db.session.commit()
             id_data = {"id":User.query.filter_by(url = url,name = name,caption = caption).first().id}
-            return jsonify(id_data),400
+            return ('',400)
         else:
             print('hdhd')
-            return jsonify(bad_request),400
-    else:
-        return jsonify(bad_request),400
+            return ('',409)
+   
+
+@app.route('/memes/<int:id>',methods = ['GET','PATCH'])
+def fetch_id(id):
+    if request.method == "GET":
+        if User.query.filter_by(id = id).first() is None:
+            
+            return ('',404)
+        else:
+            user =  User.query.filter_by(id = id).first()
+            user_detail = {"id":user.id,"name":user.name,"url":user.url,"caption":user.caption}
+            return jsonify(user_detail),200
+    if request.method == "PATCH":
+        if User.query.filter_by(id = id).first() is None:
+            
+            return ('',404)
+        else:
+            request_json = request.get_json(force = True)
+            url = request_json.get("url")
+            name = request_json.get("name")
+            caption = request_json.get("caption")
+            if name is None:
+                print("yo")
+                user =  User.query.filter_by(id = id).first()
+                user.caption = caption
+                user.url = url
+                db.session.commit()
+                return('',200)
+            else:
+                print("wut")
+                return ('',200)
+                
+        
+
+
+
+
+
         
 
 
