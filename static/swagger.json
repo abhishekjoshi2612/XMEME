@@ -1,184 +1,143 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "description": "sean",
-    "version": "1.0.0",
-    "title": "Seans-Python3-Flask-Rest-Boilerplate",
-    "license": {
-      "name": "MIT",
-      "url": "https://opensource.org/licenses/MIT"
-    }
+    "title": "Xmeme",
+    "description": "Optional multiline or single-line description in [CommonMark](http://commonmark.org/help/) or HTML.",
+    "version": "1.0.0"
   },
   "servers": [
     {
-      "url": "/"
-    }
-  ],
-  "tags": [
-    {
-      "name": "Book Request",
-      "description": "Example API for requesting and return book requests"
+      "url": "/",
+      "description": "Used for fetching memes"
     }
   ],
   "paths": {
-    "/request": {
-      "get": {
-        "tags": [
-          "Book Request"
-        ],
-        "summary": "Returns bookRequests",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/components/schemas/bookRequests"
-            }
-          }
-        }
-      },
+    "/memes": {
       "post": {
-        "tags": [
-          "Book Request"
-        ],
-        "summary": "Create a new book request system",
+        "summary": "add a meme.",
         "requestBody": {
-          "description": "Book Request Post Object",
           "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/bookRequestPostBody"
+                "$ref": "#/components/schemas/meme"
               }
             }
           }
         },
-        "produces": [
-          "application/json"
-        ],
         "responses": {
-          "201": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/components/schemas/id"
+          "200": {
+            "description": "A JSON object giving id",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/memeresponsepost"
+                }
+              }
             }
-          },
-          "400": {
-            "description": "Failed. Bad post data."
+          }
+        }
+      },
+      "get": {
+        "summary": "fetch latest memes.",
+        "responses": {
+          "200": {
+            "description": "list of json responses containing meme,id and url",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/getmeme"
+                }
+              }
+            }
           }
         }
       }
     },
-    "/request/{id}": {
-      "parameters": [
-        {
-          "name": "id",
-          "in": "path",
-          "required": true,
-          "description": "ID of the cat that we want to match",
-          "type": "string"
-        }
-      ],
+    "/memes/{userid}": {
       "get": {
-        "tags": [
-          "Book Request"
-        ],
-        "summary": "Get book request with given ID",
+        "summary": "to get json info about a id",
         "parameters": [
           {
+            "id": "userid",
             "in": "path",
-            "name": "id",
             "required": true,
-            "description": "Book Request id",
+            "description": "The ID of the user that data client want",
             "schema": {
-              "$ref": "#/components/schemas/id"
+              "type": "integer",
+              "format": "int64",
+              "minimum": 1,
+              "maximum": 1
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/components/schemas/bookRequest"
+            "description": "Id's Json data.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "format": "int64",
+                      "example": 4
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "Hari"
+                    },
+                    "url": {
+                      "type": "string",
+                      "example": "pixels.com/alliswell.jpeg"
+                    },
+                    "caption": {
+                      "type": "string",
+                      "example": "happy days ahead"
+                    }
+                  }
+                }
+              }
             }
-          },
-          "400": {
-            "description": "Failed. Misunderstood Request."
-          },
-          "404": {
-            "description": "Failed. Book request not found."
           }
         }
       },
-      "put": {
-        "summary": "edit a book request by ID",
-        "tags": [
-          "Book Request"
-        ],
+      "patch": {
+        "summary": "to update json info about a id",
         "parameters": [
           {
+            "id": "userid",
             "in": "path",
-            "name": "id",
             "required": true,
-            "description": "Book Request id",
+            "description": "The ID of the user that data client want",
             "schema": {
-              "$ref": "#/components/schemas/id"
+              "type": "integer",
+              "format": "int64",
+              "minimum": 1,
+              "maximum": 1
             }
           }
         ],
         "requestBody": {
-          "description": "Book Request Object",
+          "description": "contains url and caption",
           "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/bookRequest"
+                "$ref": "#/components/schemas/patchmemes"
               }
             }
           }
         },
-        "produces": [
-          "application/json"
-        ],
         "responses": {
           "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/components/schemas/bookRequest"
+            "description": "Id's Json data.",
+            "content": {
+              "application/json": {
+                "example": 200
+              }
             }
-          },
-          "400": {
-            "description": "Failed. Bad post data."
-          }
-        }
-      },
-      "delete": {
-        "summary": "Delete Book Request by ID",
-        "tags": [
-          "Book Request"
-        ],
-        "parameters": [
-          {
-            "in": "path",
-            "name": "id",
-            "required": true,
-            "description": "Book Request Id",
-            "schema": {
-              "$ref": "#/components/schemas/id"
-            }
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/components/schemas/id"
-            }
-          },
-          "400": {
-            "description": "Failed. Misunderstood Request."
-          },
-          "404": {
-            "description": "Failed. Book Request not found."
           }
         }
       }
@@ -186,53 +145,59 @@
   },
   "components": {
     "schemas": {
-      "id": {
+      "meme": {
         "properties": {
-          "uuid": {
+          "name": {
+            "type": "string"
+          },
+          "caption": {
+            "type": "string"
+          },
+          "url": {
             "type": "string"
           }
-        }
+        },
+        "required": [
+          "name",
+          "url",
+          "caption"
+        ]
       },
-      "bookRequestPostBody": {
-        "type": "object",
+      "memeresponsepost": {
         "properties": {
-          "title": {
-            "type": "string",
-            "format": "string"
-          },
-          "email": {
-            "type": "string",
-            "format": "email"
+          "id": {
+            "type": "integer"
           }
-        }
+        },
+        "required": "-id"
       },
-      "bookRequest": {
-        "type": "object",
+      "getmeme": {
         "properties": {
-          "title": {
-            "type": "string",
-            "format": "string"
+          "id": {
+            "type": "integer"
           },
-          "email": {
-            "type": "string",
-            "format": "email"
+          "name": {
+            "type": "string"
           },
-          "timestamp": {
-            "type": "string",
-            "format": "number"
+          "caption": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
           }
-        }
+        },
+        "required": "-id -name -caption -url"
       },
-      "bookRequests": {
-        "type": "object",
+      "patchmemes": {
         "properties": {
-          "bookRequest": {
-            "type": "object",
-            "additionalProperties": {
-              "$ref": "#/components/schemas/bookRequest"
-            }
+          "caption": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
           }
-        }
+        },
+        "required": "-caption -url"
       }
     }
   }
