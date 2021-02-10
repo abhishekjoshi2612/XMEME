@@ -4,9 +4,9 @@ from flask_api import status
 from urllib.request import urlopen
 from flask_sqlalchemy import SQLAlchemy
 from flask_table import Table
+from flask_swagger_ui import get_swaggerui_blueprint
 import requests
 #import jsonify
-
 
 
 app = Flask(__name__)
@@ -62,6 +62,21 @@ def check_url(url):
 
 Users = [ users for users in User.query.all()]
 Users.reverse()
+
+
+SWAGGER_URL = '/swagger'
+API_URL = '/static/swagger.json'
+
+SWAGGERUI_BLUEPRINT = get_swaggerui_blueprint(
+    SWAGGER_URL,
+    API_URL,
+    
+)
+app.register_blueprint(SWAGGERUI_BLUEPRINT ,url_prefix=SWAGGER_URL)
+
+@app.route('/static/<path:path>')
+def send_static(path):
+    return send_from_directory('static',path)
 @app.route('/')
 def hi():
     return render_template('home_page.html',userdetail = Users)
