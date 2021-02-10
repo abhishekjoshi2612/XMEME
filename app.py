@@ -44,13 +44,16 @@ def is_url(url):
 def check_url(url):
     if is_url(url):
         image_formats = ("image/png","image/jpeg","image/jpg","image/gif")
-        site = urlopen(url)
-        meta = site.info()
-        if meta["content-type"] in image_formats:
-            print('og bro')
-            return True
-        else:
-            print(meta["content-type"])
+        try:
+            site = urlopen(url)
+            meta = site.info()
+            if meta["content-type"] in image_formats:
+                print('og bro')
+                return True
+            else:
+             print(meta["content-type"])
+             return False
+        except: 
             return False
     else:
         return False
@@ -100,8 +103,8 @@ def fetching(id):
             return content,status.HTTP_404_NOT_FOUND
         else:
          id_data = User.query.filter_by(id = id).first() 
-          data_to_send =  { "id":id,  "name": id_data.name, "url":id_data.url,  "caption": id_data.caption}
-          return jsonify(data_to_send),200
+         data_to_send =  { "id":id,  "name": id_data.name, "url":id_data.url,  "caption": id_data.caption}
+         return jsonify(data_to_send),200
     else:
         return {'bad','request'},400
 
@@ -109,28 +112,36 @@ def fetching(id):
 @app.route('/memes',methods = ['POST'])
 def fetch_now():
     if request.method == "POST":
-        url = request.args.get("url")
-        name = request.args.get("name")
-        caption = request.args.get("caption")
-        bad_request = {'invalid','request'}
-        if url is None:
-            return bad_request,400
+        request_json = request.get_json(force = True)
+        url = request_json.get("url")
+        name = request_json.get("name")
+        caption = request_json.get("caption")
+        
+        bad_request = {"invalid":"request"}
+        print(name," ",caption," ",url)
         if name is None:
+            print('name wrong')
+            return bad_request,400
+        if url is None or check_url(url) is False:
+            print('url wrong')
             return bad_request,400
         if caption is None:
+            print('caption wrong')
             return bad_request,400
+        
         the_id = User.query.filter_by(url = url,name = name,caption = caption).first()
         if the_id is None:
             data = User(name = name,caption = caption,url = url)
             db.session.add(data)
             db.session.commit()
             id_data = {"id":User.query.filter_by(url = url,name = name,caption = caption).first().id}
-
-            return jsonify(id_data),200
+            return jsonify(id_data),400
         else:
-            return bad_request,400
+            print('hdhd')
+            return jsonify(bad_request),400
     else:
-        return bad_request,400
+        return jsonify(bad_request),400
+        
 
 
 
