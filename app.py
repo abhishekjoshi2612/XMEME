@@ -65,6 +65,9 @@ Users.reverse()
 @app.route('/')
 def hi():
     return render_template('home_page.html',userdetail = Users)
+@app.route('/editit')
+def hello():
+    return render_template('edit.html')
 @app.route('/register',methods = ["POST"])
 def register():
     if request.method == "POST":
@@ -93,6 +96,27 @@ def register():
            print('hey invalid format')
            return render_template('home_page.html',alert = 3,userdetail = Users)
 
+
+
+
+
+@app.route('/edit',methods=['POST'])
+def edit():
+    if request.method == "POST":
+        id = request.form["id"]
+        caption = request.form["caption"]
+        url = request.form["url"]
+        if check_url(url) and url is not None and caption is not None and id is not None:
+            users = User.query.filter_by(id=request.form["id"]).first()
+            if users is None:
+                return render_template('edit.html',msg = 2),404
+            else:
+                user = User(name = users.name,caption = users.caption,url = users.url)
+                db.session.add(user)
+                db.session.commit()
+                return render_template('edit.html',msg = 1)
+        else:
+            return  render_template('edit.html',msg = 2),404
 
 
 

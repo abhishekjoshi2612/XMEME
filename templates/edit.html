@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <h1>XMEME</h1>
+
+  <br>
+   <input type = "button" onclick = "location.href = '/';" value = "Home" style="background-color:blueviolet"/>
+  <style>
+  .Header{
+position: sticky;
+top : 0;
+/*background-color: white;*/
+  }
+  
+  </style>
+<!--<link rel = "stylesheet" href = "styles.css">-->  
+  </head>
+  <body>
+<div class="Header">
+   
+    <form  name = "editform" action = "/edit" method="post"  id = "editform"> 
+      
+      <label for = "id">Id</label>
+      <br>
+      <input type = "text" id = "id" name = "id" placeholder = "Enter your id">
+      <br>
+      
+      <label for = "caption">Caption</label>
+      <br>
+      <input type = "text" id = "caption" name = "caption" placeholder = "Be Creative with the Caption">
+      <br>
+      <label for = "url">Meme URL</label>
+      <br>
+      <input type = "text" id = "url" name = "url" placeholder = "Enter URL of your meme here">
+      <input type = "submit" value = "Submit Meme" style="background-color:blueviolet">
+      <br>
+      </form>
+      
+</div>
+{% block body %}
+{% if msg == 1 %}
+<script>
+    alert('Hey we have edited the requested meme');
+</script>
+
+{% endif %}
+
+{% if msg == 2 %}
+<script>
+    alert('Hey please input correct id and fill every field and correct url');
+</script>
+
+{% endif %}
+{% endblock %}
+
+    </body>
+  
+
+</html>
