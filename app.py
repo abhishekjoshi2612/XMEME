@@ -146,6 +146,7 @@ def fetch_now():
 
     if request.method == "POST":
         request_json = request.get_json(force = True)
+        print(request_json)
         url = request_json.get("url")
         name = request_json.get("name")
         caption = request_json.get("caption")
@@ -168,7 +169,7 @@ def fetch_now():
             db.session.add(data)
             db.session.commit()
             id_data = {"id":User.query.filter_by(url = url,name = name,caption = caption).first().id}
-            return ('',400)
+            return jsonify(id_data),200
         else:
             print('hdhd')
             return ('',409)

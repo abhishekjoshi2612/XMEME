@@ -7,7 +7,7 @@
   },
   "servers": [
     {
-      "url": "https://5000-scarlet-silkworm-afho3eni.ws-us03.gitpod.io",
+      "url": "/",
       "description": "Used for fetching memes"
     }
   ],
@@ -59,11 +59,12 @@
         "summary": "to get json info about a id",
         "parameters": [
           {
-            "id": "userid",
             "in": "path",
+            "name": "userid",
             "required": true,
             "description": "The ID of the user that data client want",
             "schema": {
+              "example": 1,
               "type": "integer",
               "format": "int64",
               "minimum": 1,
@@ -107,15 +108,12 @@
         "summary": "to update json info about a id",
         "parameters": [
           {
-            "id": "userid",
+            "name": "userid",
             "in": "path",
             "required": true,
             "description": "The ID of the user that data client want",
             "schema": {
-              "type": "integer",
-              "format": "int64",
-              "minimum": 1,
-              "maximum": 1
+              "type": "integer"
             }
           }
         ],
@@ -202,3 +200,7 @@
     }
   }
 }
+      
+      
+      
+      
