@@ -130,10 +130,48 @@ def edit():
 
 
 
-
-@app.route('/memes',methods = ['GET','POST'])
-def fetch_now():
+@app.route('/memes/<int:id>',methods = ['GET','PATCH'])
+def fetch_id(id):
     if request.method == "GET":
+        if User.query.filter_by(id = id).first() is None:
+            
+            return ('',404)
+        else:
+            user =  User.query.filter_by(id = id).first()
+            user_detail = jsonify({"id":user.id,"name":user.name,"url":user.url,"caption":user.caption})
+            print(user_detail)
+            user_detail.headers.add('Access-Control-Allow-Origin','*')
+            user_detail.headers.add('Access-Control-Allow-Headers','Content-Type,Authorization')
+            return user_detail,200
+    if request.method == "PATCH":
+        if User.query.filter_by(id = id).first() is None:
+            
+            return ('',404)
+        else:
+            request_json = request.get_json(force = True)
+            url = request_json.get("url")
+            name = request_json.get("name")
+            caption = request_json.get("caption")
+            if name is None:
+                print("yo")
+                user =  User.query.filter_by(id = id).first()
+                user.caption = caption
+                user.url = url
+                db.session.commit()
+                response = jsonify({"200":"200"})
+                response.headers.add('Access-Control-Allow-Origin','*')
+                response.headers.add('Access-Control-Allow-Headers','Content-Type,Authorization')
+                return(response,200)
+            else:
+                print("wut")
+                return ('',400)
+                
+
+@app.route('/memes',methods=['GET','POST'])
+def fetch_now():
+    return request.method
+    if request.method == "GET":
+        print('yo')
         count = 0
         Users_count = []
         for user in Users:
@@ -142,6 +180,7 @@ def fetch_now():
             if count == 100:
                 break
         Users_count.reverse()
+        
         return jsonify(Users_count),200
 
     if request.method == "POST":
@@ -175,36 +214,6 @@ def fetch_now():
             return ('',409)
    
 
-@app.route('/memes/<int:id>',methods = ['GET','PATCH'])
-def fetch_id(id):
-    if request.method == "GET":
-        if User.query.filter_by(id = id).first() is None:
-            
-            return ('',404)
-        else:
-            user =  User.query.filter_by(id = id).first()
-            user_detail = {"id":user.id,"name":user.name,"url":user.url,"caption":user.caption}
-            return jsonify(user_detail),200
-    if request.method == "PATCH":
-        if User.query.filter_by(id = id).first() is None:
-            
-            return ('',404)
-        else:
-            request_json = request.get_json(force = True)
-            url = request_json.get("url")
-            name = request_json.get("name")
-            caption = request_json.get("caption")
-            if name is None:
-                print("yo")
-                user =  User.query.filter_by(id = id).first()
-                user.caption = caption
-                user.url = url
-                db.session.commit()
-                return('',200)
-            else:
-                print("wut")
-                return ('',200)
-                
         
 
 
@@ -219,4 +228,5 @@ def fetch_id(id):
 
 
 if __name__ == "__main__":
-     app.run(debug = True)
+     app.run(use_reloader=True,debug = True)
+
