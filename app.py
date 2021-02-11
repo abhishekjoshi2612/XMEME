@@ -9,7 +9,7 @@ import requests
 
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'mysecret'
+#app.config['SECRET_KEY'] = 'mysecret'
 app.config['JSON_SORT_KEYS'] = False
 basedir = os.path.abspath(os.path.dirname(__file__))
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'data.sqlite')
@@ -109,7 +109,7 @@ def register():
 
 
 
-@app.route('/edit',methods=['POST'])
+@app.route('/edit',methods=["POST"])
 def edit():
     if request.method == "POST":
         id = request.form["id"]
@@ -130,7 +130,7 @@ def edit():
 
 
 
-@app.route('/memes/<int:id>',methods = ['GET','PATCH'])
+@app.route('/memes/<int:id>',methods = ["GET","PATCH"])
 def fetch_id(id):
     if request.method == "GET":
         if User.query.filter_by(id = id).first() is None:
@@ -167,10 +167,11 @@ def fetch_id(id):
                 return ('',400)
                 
 
-@app.route('/memes',methods=['GET','POST'])
+
+
+@app.route('/memes',methods = ["GET","POST"])
 def fetch_now():
-    return request.method
-    if request.method == "GET":
+    if request.method == "GET" :  
         print('yo')
         count = 0
         Users_count = []
@@ -212,7 +213,7 @@ def fetch_now():
         else:
             print('hdhd')
             return ('',409)
-   
+
 
         
 
@@ -229,4 +230,3 @@ def fetch_now():
 
 if __name__ == "__main__":
      app.run(use_reloader=True,debug = True)
-
