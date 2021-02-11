@@ -2,7 +2,7 @@
   "openapi": "3.0.0",
   "info": {
     "title": "Xmeme",
-    "description": "Optional multiline or single-line description in [CommonMark](http://commonmark.org/help/) or HTML.",
+    "description": "Here you can know about provided apis",
     "version": "1.0.0"
   },
   "servers": [
@@ -68,7 +68,7 @@
               "type": "integer",
               "format": "int64",
               "minimum": 1,
-              "maximum": 1
+              "maximum": 5
             }
           }
         ],
@@ -101,6 +101,12 @@
                 }
               }
             }
+          },
+          "400": {
+            "description": "Bad request."
+          },
+          "409": {
+            "description": "Same request as Old one"
           }
         }
       },
@@ -200,7 +206,6 @@
     }
   }
 }
-      
       
       
       
