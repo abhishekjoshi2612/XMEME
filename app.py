@@ -5,7 +5,7 @@ from urllib.request import urlopen
 from flask_sqlalchemy import SQLAlchemy
 from flask_table import Table
 import requests
-#import jsonify
+
 
 
 app = Flask(__name__)
@@ -69,7 +69,7 @@ Users.reverse()
 def hi():
     return render_template('home_page.html',userdetail = Users)
 
-@app.route('/api/docs')
+@app.route('/swagger-ui')
 def get_docs():
     print('sending docs')
     return render_template('swaggerui.html')
@@ -229,4 +229,4 @@ def fetch_now():
 
 
 if __name__ == "__main__":
-     app.run(use_reloader=True,debug = True)
+     app.run(debug = True,threaded = True)
