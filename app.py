@@ -7,7 +7,7 @@ from flask_table import Table
 import requests
 
 
-
+#__init__.py
 app = Flask(__name__)
 #app.config['SECRET_KEY'] = 'mysecret'
 app.config['JSON_SORT_KEYS'] = False
@@ -59,14 +59,15 @@ def check_url(url):
 
 #db.create_all()
 
-Users = [ users for users in User.query.all()]
-Users.reverse()
+
 
 
 #routes part
 
 @app.route('/')
 def hi():
+    Users = [ users for users in User.query.all()]
+    Users.reverse()
     return render_template('home_page.html',userdetail = Users)
 
 @app.route('/swagger-ui')
@@ -85,6 +86,7 @@ def register():
         url = request.form["url"]
         if check_url(url):
             data = User(name = name,caption = caption,url = url)
+            Users = [ users for users in User.query.all()]
             users = User.query.filter_by(name=request.form["name"],caption = request.form["caption"],url = request.form["url"]).first()
             if users is None:
                 db.session.add(data)
