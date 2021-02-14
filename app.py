@@ -7,7 +7,7 @@ from flask_table import Table
 import requests
 
 
-#__init__.py
+
 app = Flask(__name__)
 #app.config['SECRET_KEY'] = 'mysecret'
 app.config['JSON_SORT_KEYS'] = False
@@ -16,7 +16,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'da
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
-#models.py part database declaration
+
 class User(db.Model):
     __tablename__ = "User"
     id = db.Column(db.Integer, primary_key=True)
@@ -34,10 +34,10 @@ class User(db.Model):
 def is_url(url):
     try:
          response = requests.get(url)
-         #print("its done")
+         print("its done")
          return True
     except :
-        #print("OOPSIE")
+        print("OOPSIE")
         return False
 
 def check_url(url):
@@ -47,22 +47,23 @@ def check_url(url):
             site = urlopen(url)
             meta = site.info()
             if meta["content-type"] in image_formats:
-                
+                print('og bro')
                 return True
             else:
-             
+             print(meta["content-type"])
              return False
-        except: 
+        except:
             return False
     else:
         return False
 
 #db.create_all()
 
+#Users = [ users for users in User.query.all()]
+#Users.reverse()
 
 
 
-#routes part
 
 @app.route('/')
 def hi():
@@ -72,7 +73,7 @@ def hi():
 
 @app.route('/swagger-ui')
 def get_docs():
-    
+    print('sending docs')
     return render_template('swaggerui.html')
 
 @app.route('/editit')
@@ -80,6 +81,8 @@ def hello():
     return render_template('edit.html')
 @app.route('/register',methods = ["POST"])
 def register():
+    Users = [ users for users in User.query.all()]
+    Users.reverse()
     if request.method == "POST":
         name = request.form["name"]
         caption = request.form["caption"]
@@ -91,12 +94,26 @@ def register():
             if users is None:
                 db.session.add(data)
                 db.session.commit()
+                print("YOddddd")
+                Users = [ users for users in User.query.all()]
+                Users.reverse()
+               # flash('Your meme is submitted')
                 return render_template('home_page.html',alert = 1,userdetail = Users)
             else:
-               
+               # flash('HEY THIS NAME ,CAPTION and URL already exists in our database')
+               # error = 'HEY THIS NAME ,CAPTION and URL already exists in our database'
+               print('copy cat')
+               Users = [ users for users in User.query.all()]
+               Users.reverse()
                return render_template('home_page.html',alert = 2,userdetail = Users)
         else:
-           
+           # print("baddd")
+           # flash('HEY YOUR URL DOES NOT CONTAIN AN VALID IMAGE THE IMAGE SHOULD BE IN PNG,JPG,JPEG OR IN GIF FORMAT')
+           # error = 'HEY YOUR URL DOES NOT CONTAIN AN VALID IMAGE THE IMAGE SHOULD BE IN PNG,JPG,JPEG OR IN GIF FORMAT'
+          #  return "HEY YO"
+           print('hey invalid format')
+           Users = [ users for users in User.query.all()]
+           Users.reverse()
            return render_template('home_page.html',alert = 3,userdetail = Users)
 
 
@@ -105,6 +122,8 @@ def register():
 
 @app.route('/edit',methods=["POST"])
 def edit():
+    Users = [ users for users in User.query.all()]
+    Users.reverse()
     if request.method == "POST":
         id = request.form["id"]
         caption = request.form["caption"]
@@ -126,9 +145,11 @@ def edit():
 
 @app.route('/memes/<int:id>',methods = ["GET","PATCH"])
 def fetch_id(id):
+    Users = [ users for users in User.query.all()]
+    Users.reverse()
     if request.method == "GET":
         if User.query.filter_by(id = id).first() is None:
-            
+
             return ('',404)
         else:
             user =  User.query.filter_by(id = id).first()
@@ -139,7 +160,7 @@ def fetch_id(id):
             return user_detail,200
     if request.method == "PATCH":
         if User.query.filter_by(id = id).first() is None:
-            
+
             return ('',404)
         else:
             request_json = request.get_json(force = True)
@@ -157,15 +178,18 @@ def fetch_id(id):
                 response.headers.add('Access-Control-Allow-Headers','Content-Type,Authorization')
                 return(response,200)
             else:
-                
+                print("wut")
                 return ('',400)
-                
+
 
 
 
 @app.route('/memes',methods = ["GET","POST"])
 def fetch_now():
-    if request.method == "GET" :  
+    Users = [ users for users in User.query.all()]
+    Users.reverse()
+    if request.method == "GET" :
+
         print('yo')
         count = 0
         Users_count = []
@@ -175,7 +199,7 @@ def fetch_now():
             if count == 100:
                 break
         Users_count.reverse()
-        
+
         return jsonify(Users_count),200
 
     if request.method == "POST":
@@ -184,19 +208,19 @@ def fetch_now():
         url = request_json.get("url")
         name = request_json.get("name")
         caption = request_json.get("caption")
-        
+
         bad_request = {"invalid":"request"}
         print(name," ",caption," ",url)
         if name is None:
-            
+            print('name wrong')
             return ('',400)
         if url is None or check_url(url) is False:
-            
+            print('url wrong')
             return ('',400)
         if caption is None:
-            
+            print('caption wrong')
             return ('',400)
-        
+
         the_id = User.query.filter_by(url = url,name = name,caption = caption).first()
         if the_id is None:
             data = User(name = name,caption = caption,url = url)
@@ -205,17 +229,17 @@ def fetch_now():
             id_data = {"id":User.query.filter_by(url = url,name = name,caption = caption).first().id}
             return jsonify(id_data),200
         else:
-            
+            print('hdhd')
             return ('',409)
 
 
-        
 
 
 
 
 
-        
+
+
 
 
 
@@ -223,4 +247,4 @@ def fetch_now():
 
 
 if __name__ == "__main__":
-     app.run(port=8081)
+     app.run(port = 8081)
