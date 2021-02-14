@@ -13,3 +13,4 @@ sudo apt-get install -y python-pytz==2021.1
 sudo apt-get install -y python-SQLAlchemy==1.3.23
 sudo apt-get install -y python-Werkzeug==1.0.1
 sudo apt-get install -y python-requests==2.25.1
+pip install -r requirements.txt

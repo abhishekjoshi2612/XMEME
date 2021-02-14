@@ -1,4 +1,5 @@
-cd workspace/random
+cd /workspace/random
 
 npm install
-npm run
+
+python app.py
