@@ -33,12 +33,12 @@ chmod +x sleep.sh
  
 # Should return an empty array.
  
-curl --location --request GET 'http://localhost:5000/memes'
+curl --location --request GET 'http://localhost:8081/memes'
  
  
 # Execute the POST /memes endpoint using curl
  
-curl --location --request POST 'http://<Server_URL>/memes' \
+curl --location --request POST 'http://localhost:8081/memes' \
  
 --header 'Content-Type: application/json' \
  
@@ -46,7 +46,7 @@ curl --location --request POST 'http://<Server_URL>/memes' \
  
 "name": "xyz",
  
-"url": "abc.com",
+"url": "https://preview.redd.it/7k6m5okzutg61.png?width=640&height=744&crop=smart&auto=webp&s=8dfe882a423b3f1a1033ca95f17976250d46ddec",
  
 "caption": "This is a meme"
  
@@ -55,9 +55,9 @@ curl --location --request POST 'http://<Server_URL>/memes' \
  
 # Execute the GET /memes endpoint using curl
  
-curl --location --request GET 'http://localhost:5000/memes'
+curl --location --request GET 'http://localhost:8081/memes'
  
  
 # If you have swagger enabled, make sure it is exposed at localhost:8080
  
-curl --location --request GET 'http://localhost:5000/swagger-ui/'
+curl --location --request GET 'http://localhost:8081/swagger-ui'
