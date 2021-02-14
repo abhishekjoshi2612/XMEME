@@ -16,7 +16,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'da
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
-
+#models.py part database declaration
 class User(db.Model):
     __tablename__ = "User"
     id = db.Column(db.Integer, primary_key=True)
@@ -34,10 +34,10 @@ class User(db.Model):
 def is_url(url):
     try:
          response = requests.get(url)
-         print("its done")
+         #print("its done")
          return True
     except :
-        print("OOPSIE")
+        #print("OOPSIE")
         return False
 
 def check_url(url):
@@ -47,10 +47,10 @@ def check_url(url):
             site = urlopen(url)
             meta = site.info()
             if meta["content-type"] in image_formats:
-                print('og bro')
+                
                 return True
             else:
-             print(meta["content-type"])
+             
              return False
         except: 
             return False
@@ -63,7 +63,7 @@ Users = [ users for users in User.query.all()]
 Users.reverse()
 
 
-
+#routes part
 
 @app.route('/')
 def hi():
@@ -71,7 +71,7 @@ def hi():
 
 @app.route('/swagger-ui')
 def get_docs():
-    print('sending docs')
+    
     return render_template('swaggerui.html')
 
 @app.route('/editit')
@@ -89,20 +89,12 @@ def register():
             if users is None:
                 db.session.add(data)
                 db.session.commit()
-                print("YOddddd")
-               # flash('Your meme is submitted')
                 return render_template('home_page.html',alert = 1,userdetail = Users)
             else:
-               # flash('HEY THIS NAME ,CAPTION and URL already exists in our database')
-               # error = 'HEY THIS NAME ,CAPTION and URL already exists in our database'
-               print('copy cat')
+               
                return render_template('home_page.html',alert = 2,userdetail = Users)
         else:
-           # print("baddd")
-           # flash('HEY YOUR URL DOES NOT CONTAIN AN VALID IMAGE THE IMAGE SHOULD BE IN PNG,JPG,JPEG OR IN GIF FORMAT')
-           # error = 'HEY YOUR URL DOES NOT CONTAIN AN VALID IMAGE THE IMAGE SHOULD BE IN PNG,JPG,JPEG OR IN GIF FORMAT'
-          #  return "HEY YO"
-           print('hey invalid format')
+           
            return render_template('home_page.html',alert = 3,userdetail = Users)
 
 
@@ -163,7 +155,7 @@ def fetch_id(id):
                 response.headers.add('Access-Control-Allow-Headers','Content-Type,Authorization')
                 return(response,200)
             else:
-                print("wut")
+                
                 return ('',400)
                 
 
@@ -194,13 +186,13 @@ def fetch_now():
         bad_request = {"invalid":"request"}
         print(name," ",caption," ",url)
         if name is None:
-            print('name wrong')
+            
             return ('',400)
         if url is None or check_url(url) is False:
-            print('url wrong')
+            
             return ('',400)
         if caption is None:
-            print('caption wrong')
+            
             return ('',400)
         
         the_id = User.query.filter_by(url = url,name = name,caption = caption).first()
@@ -211,7 +203,7 @@ def fetch_now():
             id_data = {"id":User.query.filter_by(url = url,name = name,caption = caption).first().id}
             return jsonify(id_data),200
         else:
-            print('hdhd')
+            
             return ('',409)
 
 
